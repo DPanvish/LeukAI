@@ -1,0 +1,11 @@
+# Environment
+venv/
+.env
+
+# Python
+__pycache__/
+*.pyc
+
+# ML Models
+ml_models/*
+!ml_models/README.md

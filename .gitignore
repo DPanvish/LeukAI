@@ -1,0 +1,19 @@
+# Datasets
+dataset(original)/
+dataset(segmented)/
+
+# Logs and Reports
+train_v3_log.txt
+presentation.txt
+model_accuracy_report.md.resolved
+model_report.txt
+test_heatmap.png
+test_sample.png
+
+# Python
+*.pyc
+__pycache__/
+
+# Environments
+.env
+venv/
