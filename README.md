@@ -169,4 +169,3 @@ While this project is set up for easy local development, here is a general guide
 4.  **CORS:** Update `CORS_ORIGINS` in the backend environment to include your production frontend URL.
 
 ---
-*This documentation was generated and improved by an AI assistant.*

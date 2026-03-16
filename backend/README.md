@@ -43,7 +43,7 @@ While it's recommended to use the top-level `docker-compose.yml` to run the enti
     # On macOS/Linux:
     source venv/bin/activate
     ```
-
+    
 2.  **Install Dependencies:**
     ```bash
     pip install -r requirements.txt
