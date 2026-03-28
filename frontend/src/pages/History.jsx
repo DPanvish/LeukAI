@@ -235,8 +235,8 @@ export default function History() {
                                             key={p}
                                             onClick={() => setPage(p)}
                                             className={`w-9 h-9 rounded-lg text-sm font-medium transition-all ${p === page
-                                                    ? 'bg-primary-500/15 text-primary-400 border border-primary-500/20'
-                                                    : 'text-gray-400 hover:bg-white/5'
+                                                ? 'bg-primary-500/15 text-primary-400 border border-primary-500/20'
+                                                : 'text-gray-400 hover:bg-white/5'
                                                 }`}
                                         >
                                             {p + 1}

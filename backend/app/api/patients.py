@@ -30,7 +30,7 @@ async def get_history(
     current_user: dict = Depends(get_current_user),
 ):
     db = get_database()
-    query = {}
+    query = {"created_by": current_user["username"]}
     if search:
         query["$or"] = [
             {"patient_name": {"$regex": search, "$options": "i"}},
@@ -54,11 +54,14 @@ async def get_history(
 @router.get("/stats")
 async def get_stats(current_user: dict = Depends(get_current_user)):
     db = get_database()
-    total = await db["inferences"].count_documents({})
-    benign = await db["inferences"].count_documents({"classification": "Benign"})
+    base_query = {"created_by": current_user["username"]}
+    
+    total = await db["inferences"].count_documents(base_query)
+    benign_query = {"created_by": current_user["username"], "classification": "Benign"}
+    benign = await db["inferences"].count_documents(benign_query)
     malignant = total - benign
 
-    cursor = db["inferences"].find().sort("created_at", -1).limit(5)
+    cursor = db["inferences"].find(base_query).sort("created_at", -1).limit(5)
     recent = []
     async for doc in cursor:
         recent.append(
@@ -88,7 +91,10 @@ async def get_record(
 ):
     db = get_database()
     try:
-        doc = await db["inferences"].find_one({"_id": ObjectId(record_id)})
+        doc = await db["inferences"].find_one({
+            "_id": ObjectId(record_id),
+            "created_by": current_user["username"]
+        })
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid record ID format")
 

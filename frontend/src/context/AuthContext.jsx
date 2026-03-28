@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
-import { loginAPI } from '../services/api';
+import { loginAPI, registerAPI } from '../services/api';
 import toast from 'react-hot-toast';
 
 const AuthContext = createContext(null);
@@ -34,6 +34,24 @@ export function AuthProvider({ children }) {
         }
     };
 
+    const signup = async (username, password, fullName) => {
+        setLoading(true);
+        try {
+            const { data } = await registerAPI(username, password, fullName);
+            localStorage.setItem('token', data.access_token);
+            localStorage.setItem('user', JSON.stringify(data.user));
+            setToken(data.access_token);
+            setUser(data.user);
+            toast.success(`Welcome to LeukAI, ${data.user.full_name || data.user.username}!`);
+            return true;
+        } catch (err) {
+            toast.error(err.response?.data?.detail || 'Registration failed');
+            return false;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
@@ -43,7 +61,7 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ user, token, isAuthenticated, loading, login, logout }}>
+        <AuthContext.Provider value={{ user, token, isAuthenticated, loading, login, signup, logout }}>
             {children}
         </AuthContext.Provider>
     );

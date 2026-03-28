@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { motion } from 'framer-motion';
-import { Activity, Lock, User, ArrowRight, Eye, EyeOff } from 'lucide-react';
+import { Activity, Lock, User, ArrowRight, Eye, EyeOff, UserPlus } from 'lucide-react';
 
-export default function Login() {
-    const { login, loading, isAuthenticated } = useAuth();
+export default function Signup() {
+    const { signup, loading, isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [fullName, setFullName] = useState('');
     const [showPass, setShowPass] = useState(false);
 
     // Redirect if already logged in
@@ -19,7 +20,7 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const ok = await login(username, password);
+        const ok = await signup(username, password, fullName);
         if (ok) navigate('/', { replace: true });
     };
 
@@ -54,7 +55,7 @@ export default function Login() {
                     </h2>
 
                     <p className="text-gray-400 text-lg leading-relaxed mb-8">
-                        Upload Peripheral Blood Smear images for instant AI-driven classification
+                        Join our platform to upload Peripheral Blood Smear images for instant AI-driven classification
                         with Grad-CAM heatmap visualization highlighting regions of interest.
                     </p>
 
@@ -73,7 +74,7 @@ export default function Login() {
                 </motion.div>
             </div>
 
-            {/* ── Right: Login Form ─────────────────────────── */}
+            {/* ── Right: Signup Form ─────────────────────────── */}
             <div className="flex-1 flex items-center justify-center p-8">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -91,25 +92,42 @@ export default function Login() {
 
                     <div className="glass-card p-8 gradient-border">
                         <div className="mb-8">
-                            <h2 className="text-2xl font-display font-bold text-white mb-2">Welcome back</h2>
-                            <p className="text-gray-400">Sign in to access the diagnostic platform</p>
+                            <h2 className="text-2xl font-display font-bold text-white mb-2">Create an account</h2>
+                            <p className="text-gray-400">Sign up to access the diagnostic platform</p>
                         </div>
 
                         <form onSubmit={handleSubmit} className="space-y-5">
+                            {/* Full Name */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                                <div className="relative">
+                                    <UserPlus className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                                    <input
+                                        id="signup-fullname"
+                                        type="text"
+                                        value={fullName}
+                                        onChange={(e) => setFullName(e.target.value)}
+                                        className="input-field pl-11"
+                                        placeholder="Enter full name"
+                                        required
+                                        autoFocus
+                                    />
+                                </div>
+                            </div>
+                            
                             {/* Username */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-300 mb-2">Username</label>
                                 <div className="relative">
                                     <User className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                                     <input
-                                        id="login-username"
+                                        id="signup-username"
                                         type="text"
                                         value={username}
                                         onChange={(e) => setUsername(e.target.value)}
                                         className="input-field pl-11"
-                                        placeholder="Enter username"
+                                        placeholder="Choose a username"
                                         required
-                                        autoFocus
                                     />
                                 </div>
                             </div>
@@ -120,12 +138,12 @@ export default function Login() {
                                 <div className="relative">
                                     <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                                     <input
-                                        id="login-password"
+                                        id="signup-password"
                                         type={showPass ? 'text' : 'password'}
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
                                         className="input-field pl-11 pr-11"
-                                        placeholder="Enter password"
+                                        placeholder="Create a password"
                                         required
                                     />
                                     <button
@@ -140,18 +158,18 @@ export default function Login() {
 
                             {/* Submit */}
                             <motion.button
-                                id="login-submit"
+                                id="signup-submit"
                                 type="submit"
                                 disabled={loading}
                                 whileHover={{ scale: 1.01 }}
                                 whileTap={{ scale: 0.99 }}
-                                className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50"
+                                className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50 mt-6"
                             >
                                 {loading ? (
                                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                 ) : (
                                     <>
-                                        Sign In
+                                        Sign Up
                                         <ArrowRight className="w-4 h-4" />
                                     </>
                                 )}
@@ -160,18 +178,10 @@ export default function Login() {
 
                         <div className="mt-6 text-center">
                             <p className="text-sm text-gray-400">
-                                Don't have an account?{' '}
-                                <Link to="/signup" className="text-primary-400 hover:text-primary-300 transition-colors">
-                                    Sign up
+                                Already have an account?{' '}
+                                <Link to="/login" className="text-primary-400 hover:text-primary-300 transition-colors">
+                                    Sign in
                                 </Link>
-                            </p>
-                        </div>
-
-                        {/* Demo credentials */}
-                        <div className="mt-6 p-4 rounded-xl bg-primary-500/5 border border-primary-500/10">
-                            <p className="text-xs text-gray-400 text-center">
-                                Demo credentials: <span className="text-primary-400 font-mono">admin</span> /{' '}
-                                <span className="text-primary-400 font-mono">admin123</span>
                             </p>
                         </div>
                     </div>

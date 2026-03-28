@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './context/AuthContext';
 import { AnimatePresence } from 'framer-motion';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Upload from './pages/Upload';
 import DiagnosticViewer from './pages/DiagnosticViewer';
@@ -23,6 +24,7 @@ export default function App() {
             <AnimatePresence mode="wait">
                 <Routes>
                     <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
                     <Route
                         path="/"
                         element={

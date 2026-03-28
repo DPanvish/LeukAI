@@ -33,6 +33,9 @@ api.interceptors.response.use(
 export const loginAPI = (username, password) =>
     api.post('/auth/login', { username, password });
 
+export const registerAPI = (username, password, full_name = '') =>
+    api.post('/auth/register', { username, password, full_name });
+
 // ── Predict ──────────────────────────────────────────────
 export const uploadImageAPI = (formData) =>
     api.post('/predict/upload', formData, {
